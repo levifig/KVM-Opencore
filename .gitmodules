@@ -1,6 +1,6 @@
 [submodule "src/WhateverGreen"]
 	path = src/WhateverGreen
-	url = https://github.com/acidanthera/WhateverGreen.git
+	url = https://github.com/levifig/WhateverGreen.git
 [submodule "src/OpenCorePkg"]
 	path = src/OpenCorePkg
 	url = https://github.com/acidanthera/OpenCorePkg.git
