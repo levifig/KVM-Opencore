@@ -51,7 +51,7 @@ OpenCore-$(RELEASE_VERSION).dmg : Makefile $(EFI_FILES)
 	rm -f $@
 	hdiutil create -layout GPTSPUD -partitionType EFI -fs "FAT32" -megabytes 150 -volname EFI $@
 	mkdir -p OpenCore-Image
-	DEV_NAME=$$(hdiutil attach -nomount -plist $@ | xpath "/plist/dict/array/dict/key[text()='content-hint']/following-sibling::string[1][text()='EFI']/../key[text()='dev-entry']/following-sibling::string[1]/text()" 2> /dev/null) && \
+	DEV_NAME=$$(hdiutil attach -nomount -plist $@ | xpath -e "/plist/dict/array/dict/key[text()='content-hint']/following-sibling::string[1][text()='EFI']/../key[text()='dev-entry']/following-sibling::string[1]/text()" 2> /dev/null) && \
 		mount -tmsdos "$$DEV_NAME" OpenCore-Image
 	cp -a EFI OpenCore-Image/
 	hdiutil detach -force OpenCore-Image
@@ -168,5 +168,5 @@ very-clean : clean
 	rm -rf src/OpenCorePkg/UDK
 
 clean :
-	rm -rf OpenCore-*.dmg OpenCoreEFIFolder-*.zip OpenCore-Image/ src/Lilu/build src/WhateverGreen/build src/OpenCorePkg/UDK/Build \
+	rm -rf OpenCore-*.dmg OpenCore-*gz OpenCoreEFIFolder-*.zip OpenCore-Image/ src/Lilu/build src/WhateverGreen/build src/OpenCorePkg/UDK/Build \
 		src/AppleALC/build $(KEXTS) $(DRIVERS) $(TOOLS) $(MISC)
