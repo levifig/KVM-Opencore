@@ -5,7 +5,7 @@ KEXTS= \
 	EFI/OC/Kexts/VirtualSMC.kext
 
 DRIVERS= \
-	EFI/OC/Drivers/VBoxHfs.efi \
+	EFI/OC/Drivers/OpenHfsPlus.efi \
 	EFI/OC/Drivers/OpenRuntime.efi \
 	EFI/OC/Drivers/OpenCanopy.efi
 
@@ -97,7 +97,7 @@ src/VirtualSMC/build/Release/VirtualSMC.kext : src/VirtualSMC/Lilu.kext src/Virt
 EFI/OC/Kexts/Lilu.kext : src/Lilu/build/Release/Lilu.kext
 	cp -a $< $@
 
-src/Lilu/build/Release/Lilu.kext src/Lilu/build/Debug/Lilu.kext : src/Lilu/MacKernelSDK 
+src/Lilu/build/Release/Lilu.kext src/Lilu/build/Debug/Lilu.kext : src/Lilu/MacKernelSDK
 	cd src/Lilu && xcodebuild -configuration Debug
 	cd src/Lilu && xcodebuild -configuration Release
 
@@ -113,7 +113,7 @@ src/WhateverGreen/MacKernelSDK \
 src/AppleALC/MacKernelSDK \
 src/VirtualSMC/MacKernelSDK : src/MacKernelSDK
 	ln -s ../MacKernelSDK $@
-	
+
 # OpenCore:
 
 EFI/OC/OpenCore.efi : $(OPENCORE_UDK_BUILD_DIR)/OpenCore.efi
@@ -123,7 +123,7 @@ EFI/OC/Drivers/OpenRuntime.efi : $(OPENCORE_UDK_BUILD_DIR)/OpenRuntime.efi
 	mkdir -p EFI/OC/Drivers
 	cp -a $< $@
 
-EFI/OC/Drivers/VBoxHfs.efi : $(OPENCORE_UDK_BUILD_DIR)/VBoxHfs.efi
+EFI/OC/Drivers/OpenHfsPlus.efi : $(OPENCORE_UDK_BUILD_DIR)/OpenHfsPlus.efi
 	mkdir -p EFI/OC/Drivers
 	cp -a $< $@
 
@@ -134,9 +134,8 @@ EFI/BOOT/BOOTx64.efi : $(OPENCORE_UDK_BUILD_DIR)/Bootstrap.efi
 $(OPENCORE_UDK_BUILD_DIR)/OpenCore.efi $(OPENCORE_UDK_BUILD_DIR)/OpenRuntime.efi \
 $(OPENCORE_UDK_BUILD_DIR)/Bootstrap.efi $(OPENCORE_UDK_BUILD_DIR)/Shell.efi \
 $(OPENCORE_UDK_BUILD_DIR)/ResetSystem.efi $(OPENCORE_UDK_BUILD_DIR)/OpenCanopy.efi \
-$(OPENCORE_UDK_BUILD_DIR)/VBoxHfs.efi \
+$(OPENCORE_UDK_BUILD_DIR)/OpenHfsPlus.efi \
  :
-	cd src/OpenCorePkg && patch -p1 --forward < ../0001-vboxhfs.patch || true
 	cd src/OpenCorePkg && ARCHS=X64 ./build_oc.tool --skip-package $(OPENCORE_MODE)
 
 # Tools
